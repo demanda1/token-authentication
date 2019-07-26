@@ -1,0 +1,19 @@
+employees=[
+    {
+        id:"deepak",
+        password:"password",
+        designation:"manager"
+    },
+    {
+        id:"subham",
+        password:'password',
+        designation:"hr"
+    },
+    {
+        id:"sobhesh",
+        password:"password",
+        designation:"sales"
+    }
+]
+
+module.exports=employees
