@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <script>
+            function getusers(){
+                url='http://localhost:1269/users'
+                fetch(url,{
+                    headers:{
+                        "username":"tech",
+                        "password":"tech"
+                    }
+                }).then(res=>res.json()).then(res=>{
+                    createOption(res)
+                })
+            }
+            function createOption(data){
+                options=''
+                data.users.forEach(u=>{
+                    options+=`<option value=${u.name}>${u.name}</option>`
+                })
+
+                document.getElementById("users").innerHTML=options
+            }
+
+            function assignUser(){
+                projectname=document.getElementById('project').value
+                username=document.getElementById('users').value
+                url='http://localhost:1269/uassign//assign'
+                fetch(url,{
+                    method:'POST',
+                    headers:{
+                        'content-type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        pname:projectname,
+                        uname:username
+                    })
+                })
+                location.reload()
+            }
+
+            function getDetails(){
+                pname=document.getElementById("pinfo").value
+                url=`http://localhost:1269/project/${pname}`
+                fetch(url).then(res=>res.json()).then((res)=>{
+                    console.log(res)
+                    createOption2(res)
+                })
+            }
+            function createOption2(data){
+                options=''
+                data.forEach(u=>{
+                    options+=`<option value=${u.uname}>${u.uname}</option>`
+                })
+
+                document.getElementById("userinfo").innerHTML=options
+            }
+        </script>
+
+    </head>
+    <body onload="getusers()">
+        <fieldset><legend>Project Assign</legend>
+            <select name="project" id="project">
+                <option value="AT&T">AT&T</option>
+                <option value="Google">Google</option>
+                <option value="Facebook">Facebook</option>
+            </select>
+            <select name="users" id="users">
+                
+            </select>
+            <input type="button" value="assign" onclick="assignUser()">
+
+        </fieldset>
+        <fieldset><legend>Project Details</legend>
+            <select name="pinfo" id="pinfo">
+                <option value="AT&T">AT&T</option>
+                <option value="Google">Google</option>
+                <option value="Facebook">Facebook</option>
+            </select>
+            <select name="userinfo" id="userinfo">
+
+            </select>
+            <input type="button" value="get_details" onclick="getDetails()">
+        </fieldset>
+    </body>
+</html>

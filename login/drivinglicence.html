@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <script>
+       $(document).ready(()=>{
+           $("#dltemplate").hide()
+           
+           $("#start").click(()=>{
+                $("#dltemplate").show()
+           })
+       })
+    </script>
+    <style>
+        input{
+            background-color: transparent;
+            font-size:10px;
+            
+        }
+    </style>
+
+    <title>Driving Licence</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Build up your Driving licence</h1>
+        <input type="button" value="Start" id="start" class="btn btn-primary">
+
+        <div id="dltemplate" class="card" style="width:550px;height:300px;; background-color: skyblue; border-radius: 8px">
+            <div class="card-header" style="height:50px; text-align: center; font-family:'Times New Roman', Times, serif; -webkit-text-fill-color: white; font-size: 25px"> INDIAN UNION DRIVING LICENCE </div>
+            <!-- Body of dl-->
+            <div class="card-body">
+                    <h5 class="card-title">
+                        <div style="text-align:center; background-color: white" >
+                            ODISHA STATE
+                        </div>
+                    </h5>
+            </div>
+            <!-- Column -->
+            <div class="col-md-8" style="height:100px;">
+                <!--column 2-->
+                 <div class="row">
+                    <div class="col-md-2">
+                        <img src="./images/goldenchip.png" style="width:100px; height:100px" alt="">
+                    </div>
+
+                    <div class="col-md-6">
+                            <table style="font-size: 10px" >
+                                    <tr>
+                                        <td>Number:</td>
+                                        <td><input type="text" class="form-control" style="background-color: transparent; border:none; width:180px; height:15px" placeholder="Your Name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td><input type="text" class="form-control" style="background-color: transparent; border:none; width:180px; height:15px" placeholder="Your Name"></td>
+                                    </tr> 
+                                    <tr>
+                                        <td>S/D/W of:</td>
+                                        <td><input type="text" class="form-control" style="background-color: transparent; border:none; width:180px; height:15px" placeholder="Your Name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address:</td>
+                                        <td><textarea name="" id="" cols="30" rows="1" style="background-color:transparent; border:none" placeholder="Your Address.."></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Issued On:</td>
+                                        <td><input type="text" class="form-control" style="background-color: transparent; border:none; width:180px; height:15px" placeholder="Your Name"></td>
+                                    </tr> 
+                                    <tr>
+                                        <td>DoB</td>
+                                        <td><input type="text" class="form-control" style="background-color: transparent; border:none; width:180px; height:30px" placeholder="Your Name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BG</td>
+                                        <td><input type="text" class="form-control" style="background-color: transparent; border:none; width:180px; height:15px" placeholder="Your Name"></td>
+                                    </tr>
+                                </table>
+                    </div>
+                 </div>
+
+                 <div class="row">
+                        <table >
+                                <tr>
+                                    <td colspan="5" style="font-size: 15px;">Is licence to drive</td>
+                                </tr>
+                            </table>
+                            <table border="1">
+                                <tr>
+                                    <td><h6 style="height:10px">Vehicle Class:</h6></td>
+                                    <td><h6 style="height:10px"> MCWG</h6></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                        <td<h6 style="height:10px">Date of Issue:</td></td>
+                                        <td><h6 style="height:10px">26-07-2019</h6></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td colspan="5" style="height:10px"><h6>Valid till Transport:</h6></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5"><h6 >Valid till (Non-Transport): 02-12-2035</h6></td>
+                                </tr>
+                            </table>
+                 </div>
+                <!--column-2 2nds-->
+            </div>
+            <div class="col-md-2">
+                    <div class="col-md-3" style="background-color:transparent">
+                            <img src="./images/DeepakManda.jpg" class="w3-round" alt="Your Image" style="width:100px;height:100px"> 
+                        </div>
+            </div>
+            <!--column ends-->
+        </div>
+ 
+    </div>
+</body>
+</html>
