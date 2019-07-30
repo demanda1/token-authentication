@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Tik Tak Toe</title>
+    <script>
+        var i=0;
+        var j=0;
+        var a;
+        var arr1=[];
+        var arr2=[];
+        var sum1=0;
+        var sum2=0;
+        var checkwin1;
+        var checkwin2;
+        function play(key){
+            a=key
+            console.log(a)
+            document.getElementById(`${key}`).disabled=true;
+        }
+        function selectPlayer(player){
+            if(player==1){
+                arr2.push(a)
+                console.log("arr2=",arr2)
+            }
+            else{
+                arr1.push(a)
+                console.log("arr1=",arr1)
+            }
+            if(arr1.length>=3){
+                checkwin1=arr1[arr1.length-1];
+                console.log("checkwin1=",checkwin1)
+                for(i=arr1.length-2;i>=0;i--){
+                    for(j=i-1;j>=0;j--){
+                        sum1=checkwin1+arr1[i]+arr1[j];
+                        console.log("sum1=",sum1)
+                        if(sum1==15){
+                            alert("Congratulations !!! PLAYER 1 WON !!!")
+                            return;
+                        }
+                        sum1=0;
+                    }
+                }
+
+                /*for(i=arr1.length-1;i>arr1.length-2;i--){
+                    sum1+=arr1[i-1];
+                    console.log("sum1=",sum1)
+                    if(sum1==15){
+                        alert("Congratulations !!! PLAYER 1 WON !!!")
+                    }
+                }
+                sum1=0;*/
+            }
+            if(arr2.length>=3){
+                checkwin2=arr2[arr2.length-1];
+                console.log("checkwin2=",checkwin2)
+                for(i=arr2.length-2;i>=0;i--){
+                    for(j=i-1;j>=0;j--){
+                        sum2=checkwin2+arr2[i]+arr2[j];
+                        console.log("sum2=",sum2)
+                        if(sum2==15){
+                            alert("Congratulations !!! PLAYER 2 WON !!!");
+                            return;
+                        }
+                        sum2=0;
+                    }
+                }
+               /* for(i=arr2.length;i>arr2.length-3;i--){
+                    sum2+=arr2[i-1];
+                    console.log("sum2=",sum2)
+                    if(sum2==15){
+                        alert("Congratulations !!! PLAYER 2 WON !!!")
+                    }
+                }
+                sum2=0;*/
+            }
+            if(arr1.length==5 || arr2.length==5){
+                alert("Game Draw!!")
+            }
+        }
+
+        function savegame(){
+            gamedata={
+            gameobject:[]
+            }
+            for(i=1;i<=9;i++){
+                if(document.getElementById(`${i}`).disabled==true){
+                    gamedata.gameobject.push({
+                        id:i,
+                        val:document.getElementById(`${i}`).value
+                    })
+                }
+            }
+            gamedata1=JSON.stringify(gamedata)
+            console.log(gamedata1)
+            url="http://localhost:9999/fetch"
+            fetch(url,{
+                method:"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:gamedata1
+            }).then(res=>{
+                document.location="index.html"
+            })
+        }
+
+        function resumegame(){
+            url="http://localhost:9999/"
+            fetch(url).then(res=>res.json()).then(res=>{
+                console.log(res.gamedata)
+                console.log(res.gamedata[0].gameobject[0])
+                res.gamedata[0].gameobject.forEach((u)=>{
+                    document.getElementById(`${u.id}`).value=`${u.val}`
+                    document.getElementById(`${u.id}`).disabled=true
+                    if(`${u.val}`=="x"){
+                        value=parseInt(`${u.id}`)
+                        arr1.push(value)
+                    }
+                    else{
+                        value=parseInt(`${u.id}`)
+                        arr2.push(value)
+                    }
+                })
+                console.log(arr1)
+                console.log(arr2)
+                if((arr1.length+arr2.length)%2==0){
+                    alert("Player 1 will play now");
+                }
+                else{
+                    alert("player 2 will play now")
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <table border=3px>
+        <tr>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="4" onchange="play(4)"></td>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="9" onchange="play(9)"></td>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="2" onchange="play(2)"></td>
+        </tr>
+        <tr>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="3" onchange="play(3)"></td>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="5" onchange="play(5)"></td>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="7" onchange="play(7)"></td>
+        </tr>
+        <tr>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="8" onchange="play(8)"></td>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="1" onchange="play(1)"></td>
+            <td><input style="width:100px;height:100px; font-size: 120px; text-align: center; color:royalblue" type="text" id="6" onchange="play(6)"></td>
+        </tr>
+    </table>
+    <input class="btn btn-primary" type="button" value="Player 1" onclick="selectPlayer(1)">
+    <input class="btn btn-warning" type="button" value="Player 2" onclick="selectPlayer(2)">
+    <input class="btn btn-success" type="button" value="Save Game" onclick="savegame()">
+    <input class="btn btn-danger" type="button" value="Resume" onclick="resumegame()">
+</body>
+</html>
