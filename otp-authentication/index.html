@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Homepage</title>
+    <script>
+     function otpsender(){
+         var name=document.getElementById("name").value
+         var email=document.getElementById("email").value
+         //generate random number
+         var text=""
+         var possible="ABCDEFGHIJKLMN0123456789OPQRSTUVWXYZ"
+         for(i=0;i<8;i++){
+             text+=possible.charAt(Math.floor(Math.random()*possible.length))
+         }
+         console.log(name)
+         console.log(email)
+         console.log(text)
+
+        url2="http://localhost:5000/register"
+        fetch(url2).then(res=>{
+
+        })
+
+        url="http://localhost:5000/register/send/"
+         fetch(url,{
+             method:'POST',
+             headers:{
+                'content-type':'application/json'
+             },
+             body:JSON.stringify({
+                 uname:name,
+                 uemail:email,
+                 otp:text,
+             })
+         }).then(res=>res.json()).then(res=>{
+             console.log(res.message)
+             alert("An otp has been send in your given email id")
+         })
+         
+     }
+    </script>
+</head>
+<body>
+    <fieldset><legend>Registration Form</legend>
+        Name:<input type="text" id="name"><br>
+        Email: <input type="email" id="email"><br>
+        <input type="button" value="Register" onclick="otpsender()">
+    </fieldset>
+
+</body>
+</html>

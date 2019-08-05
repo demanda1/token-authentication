@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>verification page</title>
+    <script>
+        var currentdate = new Date();
+     function verify(){
+        otp=document.getElementById("otp").value
+        email=document.getElementById("email").value
+        pass=document.getElementById("pass").value
+        cnfpass=document.getElementById("cnfpass").value
+
+        var currentdate = new Date(); 
+
+
+        url="http://localhost:5000/register/verify"
+        
+        fetch(url,{
+            method:'GET',
+            headers:{
+                'content-type':'application-type'
+            }
+        }).then(res=>res.json()).then(res=>{
+            console.log(res.data[0].email)
+            console.log(email)
+            if((res.data[0].otp==otp &&res.data[0].email==email)&&((currentdate.getTime()-res.data[0].time)<=120000))
+            {   console.log(res.data[0].otp) 
+                document.getElementById("otp").disabled=true
+                document.getElementById("email").disabled=true;
+                document.getElementById("pass").disabled=false;
+                document.getElementById("cnfpass").disabled=false;
+            }
+            else{
+                alert("OTP expired")
+                document.getElementById("otp").disabled=false;
+                document.getElementById("email").disabled=false;
+                document.getElementById("pass").disabled=true;
+                document.getElementById("cnfpass").disabled=true;
+                document.getElementById("reset").disabled=false;
+            }
+        })
+     }
+
+
+     function check(){
+        password=document.getElementById("pass").value
+        cnfpass=document.getElementById("cnfpass").value
+        if(password==cnfpass){
+            document.getElementById("cnfpass").style.border="5px solid green"
+            document.getElementById("abc").innerHTML="confirm"
+            document.getElementById("submit").disabled=false
+        }
+        else{
+            document.getElementById("cnfpass").style.border="5px solid red"
+            document.getElementById("abc").innerHTML="notmatched"
+        }
+     }
+
+     function passupdate(){
+        email=document.getElementById("email").value
+        pass=document.getElementById("pass").
+        url=`http://localhost:5000/register/update/${email}/${pass}`
+        fetch(url).then(res=>{
+            console.log("all done")
+            document.location="profilepage.html"
+        })
+     }
+
+     function reset(){
+        var time=currentdate.getTime()
+        var text=""
+         var possible="ABCDEFGHIJKLMN0123456789OPQRSTUVWXYZ"
+         for(i=0;i<8;i++){
+             text+=possible.charAt(Math.floor(Math.random()*possible.length))
+         }
+         var email=document.getElementById("email").value
+         url=`http://localhost:5000/register/reset/${email}/${text}/${time}`
+         fetch(url).then(res=>{
+            console.log("otp reset")
+            location.reload()
+         })
+     }
+    </script>
+</head>
+<body>
+    <h1>Verication PAge</h1>
+    <input type="text" id="otp" placeholder="enter otp">
+    <input type="text" id="email" placeholder="enter email">
+    <input type="password" id="pass" disabled placeholder="enter password">
+    <input type="password" id="cnfpass" disabled placeholder="confirm password" oninput="check()">
+    <div id="abc"></div>
+    <input type="button" value="Verify" onclick="verify()">
+    <input type="button" id="submit" value="Submit" disabled onclick="passupdate()">
+    <input type="button" id="reset" value="Reset" disabled onclick="reset()" >
+</body>
+</html>
