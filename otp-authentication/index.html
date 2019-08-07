@@ -18,12 +18,20 @@
          console.log(name)
          console.log(email)
          console.log(text)
-
-        url2="http://localhost:5000/register"
-        fetch(url2).then(res=>{
-
-        })
-
+         let k=0;
+         let j=0;
+        url2="http://localhost:5000/register/verify/"
+        fetch(url2).then(res=>res.json()).then(res=>{
+            res.data.forEach((u)=>{
+                j++;
+                console.log(u)
+                if(u.email!=email){
+                    console.log(u)
+                    k++;
+                }
+            })
+            console.log(k,j)
+            if(k==j){
         url="http://localhost:5000/register/send/"
          fetch(url,{
              method:'POST',
@@ -39,7 +47,11 @@
              console.log(res.message)
              alert("An otp has been send in your given email id")
          })
-         
+        }
+        else{
+            alert("User already registered")
+        }
+        })
      }
     </script>
 </head>

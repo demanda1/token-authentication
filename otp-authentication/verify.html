@@ -7,6 +7,7 @@
     <title>verification page</title>
     <script>
         var currentdate = new Date();
+        
      function verify(){
         otp=document.getElementById("otp").value
         email=document.getElementById("email").value
@@ -61,7 +62,7 @@
 
      function passupdate(){
         email=document.getElementById("email").value
-        pass=document.getElementById("pass").
+        pass=document.getElementById("pass").value
         url=`http://localhost:5000/register/update/${email}/${pass}`
         fetch(url).then(res=>{
             console.log("all done")

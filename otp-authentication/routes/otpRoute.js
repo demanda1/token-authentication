@@ -2,7 +2,7 @@ const server=require('express').Router()
 const mailclient=require('../services/mailservice')
 const mailer=new mailclient()
 const mongoclient=require('mongodb').MongoClient
-
+let otpfinal;
 
 server.post('/send',(req,res)=>{
 
@@ -38,7 +38,7 @@ server.post('/send',(req,res)=>{
         body:`<div>Dear ${req.body.uname},</div>
                  <div>To complete your registration, your One time Password is,</div>
                  <div>${req.body.otp}</div>
-                 <div> <a href="C:\Users\DeepakMandal\Desktop\fsdrepo\ibm-fst-072019\ibm-fsd-000ggg\JAVA\ibm-fst-072019\nodejs\otp-authentication\verify.html">
+                 <div> <a href="http://localhost:5000/register/autovalidate/${req.body.otp}">
                  click here</a> to complete your registration process.</div> `
     }
     res.end(JSON.stringify({
@@ -53,6 +53,33 @@ server.post('/send',(req,res)=>{
     }
 
 })
+server.get('/autovalidate/:otp',(req,res)=>{
+    console.log("autovalidate");
+    console.log(req.params.otp);
+    var currentdate = new Date();
+    otpfinal=req.params.otp;
+    mongoclient.connect("mongodb://localhost:27017",{ useNewUrlParser: true },(error,connection)=>{
+            connection.db("ibm_training").collection("registration").find({otp:req.params.otp},{}).toArray((err,data)=>{
+                if(err){
+                   console.log("registration failed") 
+                }
+                else{
+                    console.log("data-saved")
+                    if((data[0].otp==req.params.otp)&&((currentdate.getTime()-data[0].time)<=120000000))
+                    {   
+                        
+                        path="C:\\Users\\DeepakMandal\\Desktop\\fsdrepo\\ibm-fst-072019\\ibm-fsd-000ggg\\JAVA\\ibm-fst-072019\\nodejs\\otp-authentication"
+                        
+                        res.sendFile(path+"\\passwordpage.html");
+                    }
+                    else{
+                        console.log(data[0].otp)
+                    }
+                }
+            })
+        })
+})
+
 
 server.get('/verify',(req,res)=>{
     console.log("verifyyyyy");
@@ -75,8 +102,16 @@ server.get('/update/:email/:pass',(req,res)=>{
     console.log(req.params.email)
     console.log(req.params.pass)
     mongoclient.connect("mongodb://localhost:27017",{ useNewUrlParser: true },(error,connection)=>{
-    connection.db("ibm_training").collection("registration").update({email:req.params.email},{$set: {pass:req.params.pass}},{upsert:true})
+    connection.db("ibm_training").collection("registration").update({email:req.params.email},{$set: {pass:req.params.pass}, $unset:{otp:""}},{upsert:true})
         res.end()
+})
+})
+
+server.get('/updatedirect/:pass',(req,res)=>{
+    console.log(req.params.pass)
+    mongoclient.connect("mongodb://localhost:27017",{ useNewUrlParser: true },(error,connection)=>{
+    connection.db("ibm_training").collection("registration").updateMany({otp:otpfinal},{$set: {pass:req.params.pass}, $unset:{otp:"", time:""}},{upsert:true})
+    res.end()
 })
 })
 
